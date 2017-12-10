@@ -305,10 +305,10 @@ public class EmsImporter {
         }
         List<EmsConference> emsConferences = emsImporter.readAndCreateConferences();
         emsConferences.parallelStream().forEach(emsImporter::readEmsAndSubmit);
-        emsImporter.addJavaZone2017();
+        emsImporter.addTDC2018();
     }
 
-    private void addJavaZone2017() throws Exception {
+    private void addTDC2018() throws Exception {
         String conferenceaddr = EmsImportConfig.serverAddress() + "/conference";
         try (InputStream is = openConnectionToSleepingPill(conferenceaddr).getInputStream()) {
             JsonArray conferences = JsonParser.parseToObject(is).requiredArray("conferences");
@@ -317,7 +317,7 @@ public class EmsImporter {
             }
         }
 
-        JsonObject input = DataObjects.newConferenceObj("Javazone 2017","javazone_2017",Optional.of("30d5c2f1cb214fc8b0649a44fdf3b4bf"));
+        JsonObject input = DataObjects.newConferenceObj("Trondheim Developer Conference 2018","TDC2018",Optional.of("30d5c2f1cb214fc8b0649a44fdf3b4bf"));
 
         HttpURLConnection conn = openConnectionToSleepingPill(conferenceaddr);
         conn.setRequestMethod("POST");
