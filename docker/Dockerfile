@@ -1,5 +1,5 @@
 FROM openjdk:8
 EXPOSE 8083
-ADD sleepingPill.conf /
+ADD wait-for-it.sh /
 ADD sleepingPillCore.jar /
-cmd java ${JAVA_OPTS} -jar /sleepingPillCore.jar /sleepingPill.conf
+cmd /wait-for-it.sh db:5432 -- java ${JAVA_OPTS} -jar /sleepingPillCore.jar /sleepingPill.conf

@@ -32,8 +32,8 @@ public class Configuration {
         }
 
         String doc;
-        try {
-            doc = toString(new FileInputStream(filename));
+        try (FileInputStream fis = new FileInputStream(filename)){
+            doc = toString(fis);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
