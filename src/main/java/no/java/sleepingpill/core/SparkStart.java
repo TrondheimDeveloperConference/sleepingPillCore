@@ -46,9 +46,6 @@ public class SparkStart {
 
         new BasicAuthController().initSpark();
         new ExceptionHandler().initSparkExceptionHandling();
-        after((request, response) -> {
-            response.header("Content-Encoding", "gzip");
-        });
     }
 
     public static void setConfigFile(String[] argv) {
