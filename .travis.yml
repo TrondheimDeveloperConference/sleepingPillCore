@@ -1,5 +1,11 @@
 language: java
-jdk:
-  - oraclejdk8
-notifications:
-  slack: javabin:QD1HROpon5bu8WAOotb5o8IO
+services:
+  - docker
+script:
+  - docker build -t trondheimdc/sleepingpillcore .
+
+deploy:
+  provider: script
+  script: bash docker_push
+  on:
+    branch: master
