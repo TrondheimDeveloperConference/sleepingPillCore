@@ -5,7 +5,7 @@ COPY src /tmp/src/
 WORKDIR /tmp/
 RUN mvn package -Dmaven.test.skip
 
-FROM openjdk:8-jdk-alpine
+FROM openjdk:8-jdk
 EXPOSE 8083
 ADD docker/wait-for-it.sh /wait-for-it.sh
 COPY --from=MAVEN_TOOL_CHAIN /tmp/target/sleepingPillCore-1.0.TDC-jar-with-dependencies.jar /sleepingPillCore.jar
