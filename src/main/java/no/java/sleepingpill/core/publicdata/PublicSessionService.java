@@ -14,6 +14,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class PublicSessionService {
@@ -48,6 +49,7 @@ public class PublicSessionService {
         List<Session> allPubSessionsForConference = SessionHolder.instance().allSessions().stream()
                 .filter(se -> conferenceid.equals(se.getConferenceId()))
                 .filter(Session::isPublic)
+                .filter(sessionIsConfirmed())
                 .collect(Collectors.toList());
 
         Optional<ServiceResult> serviceResult = checkIfModifiedSince(allPubSessionsForConference, ifModifiedSince);
@@ -57,9 +59,14 @@ public class PublicSessionService {
 
         JsonArray sessions = JsonArray.fromNodeStream(
                 allPubSessionsForConference.stream()
+                        .filter(sessionIsConfirmed())
                         .map(Session::asPublicSessionJson)
         );
         return ServiceResult.ok(JsonFactory.jsonObject().put("sessions",sessions));
+    }
+
+    private static Predicate<Session> sessionIsConfirmed() {
+        return s -> s.getData().get("tags").toString().contains("confirmed");
     }
 
     public ServiceResult allConferences() {
