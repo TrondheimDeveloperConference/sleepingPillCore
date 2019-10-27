@@ -89,7 +89,7 @@ public class SessionService {
             return ServiceResult.sendError(HttpServletResponse.SC_CONFLICT, errormessage);
         }
         EventHandler.instance().addEvent(event);
-
+        publishSessionData(sessionId);
         return sessionById(sessionId);
     }
 
